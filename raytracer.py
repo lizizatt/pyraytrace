@@ -1,5 +1,6 @@
 # This file contains definitions for a simple raytracer.
-# Copyright Callum and Tony Garnock-Jones, 2008.
+# Updated by Elizabeth Izatt, 2013.
+# Originally by Callum and Tony Garnock-Jones, 2008.
 # This file may be freely redistributed under the MIT license,
 # http://www.opensource.org/licenses/mit-license.php
 from __future__ import with_statement
@@ -7,6 +8,37 @@ from __future__ import with_statement
 import math
 
 EPSILON = 0.00001
+
+class SceneObject:
+    """
+    Last modified:  Liz 11/29/2013
+    Basic scene object prototype
+    defines each function that each scene object instantiation should answer to
+    """
+    def __init__(self, **kwargs):
+        self.baseColor = kwargs.get('baseColour', (1,1,1))
+        def testFunc():
+            return 1
+        self.brdfFunc = kwargs.get('brdfFunc', testFunc)
+                                    
+    def brdf(self,a,b):
+        """
+        two vectors a and b encoding incoming and outgoing directions
+        returns brdf val for this object as returned by local brdffunc, which is by default 1 (pure reflective)
+        """
+        return brdfFunc(a,b)
+    
+    def baseColourAt(self, p):
+        return self.baseColour
+
+    def colourAt(self, scene, ray, p, normal):
+        """
+        finds color at a location on the object given the scene.
+        probably will refer to brdf function
+        """
+        return
+    
+    
 
 class Vector:
     def __init__(self, initx, inity, initz):
@@ -285,7 +317,7 @@ def addColours(a, scale, b):
             a[1] + scale * b[1],
             a[2] + scale * b[2])
 
-class SimpleSurface:
+class SimpleSurface(SceneObject):
     def __init__(self, **kwargs):
         self.baseColour = kwargs.get('baseColour', (1,1,1))
         self.specularCoefficient = kwargs.get('specularCoefficient', 0.2)
